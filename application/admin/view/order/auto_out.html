@@ -1,0 +1,29 @@
+<h2 style="text-align: center;margin-top: -10px;margin-bottom: 10px;">选择出款通道</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>第三方通道</th>
+        <th>最小金额</th>
+        <th>最大金额</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $list as $key=>$vo }
+    <div class="radio">
+        <tr class="active" onmousedown="mousedown(this)">
+            <th scope="row"><input type="radio" name="id" value="{$vo.id}"></th>
+            <td>{$vo.name}</td>
+            <td>{$vo.min}</td>
+            <td>{$vo.max}</td>
+        </tr>
+    </div>
+    {/foreach}
+    </tbody>
+</table>
+<script>
+    function mousedown(event) {
+        $(event).children().children().prop('checked', true);
+    }
+
+</script>

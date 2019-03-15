@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>轮询支付状态</title>
+    <meta name="viewport" content="initial-scale=1.0,width=device-width"/>
+    <style type="text/css">
+        body {
+            padding: 0px;
+            margin: 0px;
+            font: 14px/28px '微软雅黑';
+        }
+
+        .process {
+            width: 400px;
+            height: 150px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .process .item {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .process .item .current {
+            color: #ff0000;
+        }
+
+        .process .item .downTime {
+            color: #ff0000;
+        }
+
+        .process .toolbar {
+            height: 80px;
+            line-height: 80px;
+        }
+
+        .process button {
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #2E8ECC;
+            border: 1px solid #216590;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .process button:hover {
+            background: #DD5044;
+            border: 1px solid #B02C20;
+        }
+
+        .process button[disabled] {
+            border: 1px solid #E5E5E5;
+            background: #F5F5F5;
+            color: #ACA899;
+            pointer-events: none;
+            cursor: not-allowed;
+            filter: alpha(opacity=65);
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            opacity: .65
+        }
+    </style>
+    <script src="__STATIC__/admin/assets/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript">
+        var tmr_task = null;
+        var currTime = task_second = 60; //10秒
+        $(function () {
+            //downTime();
+            $("#btnStart").click(function () {
+                $("#btnStart").attr("disabled", true);
+                doTask();
+            });
+        });
+
+        //执行同步任务
+        function doTask() {
+            clearInterval(tmr_task); //清除计数器
+            $.ajax({
+                type: 'POST',
+                url: "{:url('checkorderstatus/begin')}",
+                dataType: 'json',
+                data: {auth: 'C672444835537DA31', format: 'json'},
+                beforeSend: function () {
+                    $(".current").html('执行中……');
+                },
+                success: function (res) {
+                    if (res!=null&&res.status == 1) {
+                        $(".current").html(res.msg);
+                        currTime = task_second;
+                        tmr_task = setInterval('doTask()', task_second * 1000);
+                        downTime();
+                    } else { //重新加载
+                        $(".current").html('执行任务失败,重新执行……');
+                        currTime = task_second;
+                        tmr_task = setInterval('doTask()', task_second * 1000);
+                        downTime();
+                    }
+                },
+                error: function () {
+                    $(".current").html('执行任务失败ERROR,重新执行……');
+                    currTime = task_second;
+                    tmr_task = setInterval('doTask()', task_second * 1000);
+                    downTime();
+                }
+            });
+        }
+
+        //倒计时
+        function downTime() {
+            $(".downTime").html(currTime);
+            currTime--;
+            if (currTime <= 0) return;
+            setTimeout('downTime()', 1000);
+        }
+    </script>
+</head>
+<body>
+<div class="process">
+    <div class="item">运行状态: <span class="current">[准备就绪]</span></div>
+    <div class="item">启动任务: &nbsp;<span class="downTime">0</span>&nbsp;秒后</div>
+    <div class="toolbar">
+        <button name="btnStart" id="btnStart">启动任务</button>
+    </div>
+</div>
+</body>
+</html>

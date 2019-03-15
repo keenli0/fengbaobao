@@ -1,0 +1,100 @@
+﻿<div class="content-main">
+    <div class="btn-group" data-example-id="btn-variants">
+        <button type="button" id="add" class="btn btn-default"><i class="glyphicon glyphicon-plus"
+                                                                  aria-hidden="true"></i>确认审核
+        </button>
+    </div>
+    <form id="testserach"></form>
+    <table id="table_list" class="table table-bordered table-hover table-style">
+
+    </table>
+</div>
+<script>
+    var datatable = $('#table_list').DataTable({
+        // 是否允许检索
+        "searching": true,
+        //排序
+        "order": [[1, 'desc']],
+        // 是否允许排序
+        "ordering": true,
+        "info": true,
+        "paging": true,
+        "lengthChange": true,
+        "lengthMenu": [10, 25, 50, 75, 100],
+        "autoWidth": false,
+        "processing": false,
+        "rowId": 'auto_Id',
+        "language": {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "显示 _MENU_ 项结果",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "paginate": {
+                "first": "第一页",
+                "last": "最后一页",
+                "next": "下一页",
+                "previous": "上一页"
+            },
+        },
+        dom: 'Blfrtip',
+        cache: false,
+        dataType: "json",
+        "serverSide": true,
+        "ajax": {
+            "url": '{:url("order/exitOrderList")}',
+            "type": 'post',
+            data: function (param) {
+
+            },
+        },
+        columns: [
+            {
+                data: "auto_Id",
+                title: "id",
+            },
+            {data: 'Id', "title": "订单号",},
+            {data: 'MemberAccount', "title": "游戏账号",},
+            {data: 'Name', "title": "姓名",},
+            {data: 'Amount', "title": "金额",},
+            {data: 'BankName', "title": "银行",},
+            {data: 'Fee', "title": "手续费",},
+            {data: 'Administration', "title": "行政费用",},
+            {data: 'DiscountCancel', "title": "优惠扣除",},
+            {data: 'Account', "title": "银行账户",},
+            {
+                data: 'status',
+                "title": "回退",
+                "render": function (data, type, row, meta) {
+                    $res = data == -1 ? '<span class="hongse">是</span>' : '<span  class="lvse">否</span>';
+                    return $res;
+                },
+            },
+        ], "createdRow": function (row, data, index) {
+            $(row).attr('index', index);
+        },
+        "fnDrawCallback": function () {
+            $(this).find('thead input[type=checkbox]').removeAttr('checked');
+        },
+
+        buttons: {
+            dom: {
+                button: {
+                    tag: 'button',
+                    className: 'btn btn-default'
+                }
+            },
+            buttons: ['excel'],
+        },
+
+    }).on('click', 'span.expand-detail', function (event) {
+        toggleDetailRow($(this).closest("tr").attr("index"));
+    });
+</script>

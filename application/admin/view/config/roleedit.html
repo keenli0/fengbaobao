@@ -1,0 +1,27 @@
+<div id="message">
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td width="20%">角色名称</td>
+            <td><input type="text" class="form-control" placeholder="角色名称" name="name" id="name" value="{$list.name}"/>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">描述</td>
+            <td><input type="text" class="form-control" placeholder="描述" name="description" id="description"
+                       value="{$list.description}"/>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">权限</td>
+            <td>
+                <label class="checkbox-inline" style="margin:0px auto;">
+                    {$tag|raw}
+
+                </label>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,44 @@
+<div>
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td>上级菜单</td>
+            <td>
+            <select id="pid" class="form-control">
+                <option value ="">---请选择---</option>
+                <option value ="0">一级菜单</option>
+                {foreach $list as $key=>$vo }
+                <option value ="{$vo.id}">{$vo.name}</option>
+                {/foreach}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>名称</td>
+            <td><input type="text" class="form-control" placeholder="名称" name="name" id="name"/></td>
+        </tr>
+        <tr>
+            <td>样式</td>
+            <td><input type="text" class="form-control" placeholder="样式" name="class" id="class"/></td>
+        </tr>
+        <tr>
+            <td>图标</td>
+            <td><input type="text" class="form-control" placeholder="图标" name="icon" id="icon"/></td>
+        </tr>
+
+        <tr>
+            <td>title</td>
+            <td><input type="text" class="form-control" placeholder="title" name="title" id="title"/></td>
+        </tr>
+        <tr>
+            <td>url</td>
+            <td><input type="text" class="form-control" placeholder="url" name="url" id="url"/></td>
+        </tr>
+        <tr>
+            <td>参数</td>
+            <td><input type="text" class="form-control" placeholder="参数" name="param" id="param"/></td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="message" style="color: red"></div>
+</div>

@@ -1,0 +1,41 @@
+<div id="message">
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td>{$Think.lang.name}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.name}" name="name" id="name" value=""/></td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.username}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.username}"name="username" id="username" value=""/></td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.password}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.password}" name="password" id="password" value=""/></td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.telphone}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.telphone}" name="telphone" id="telphone" value=""/></td>
+        </tr>
+        <tr>
+            <td>角色组</td>
+            <td>
+            <select id="role_id" class="form-control">
+                <option value ="">---请选择---</option>
+                {foreach $list as $key=>$vo }
+                <option value ="{$vo.id}">{$vo.name}</option>
+                {/foreach}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.email}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.email}" name="email" id="email" value=""/></td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.ip}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.ip}" name="ip" id="ip" value=""/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

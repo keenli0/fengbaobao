@@ -1,0 +1,40 @@
+<div id="message">
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td>id</td>
+            <td><input class="form-control" id="id" type="text" placeholder="{$list.id}" disabled></td>
+
+        </tr>
+        <tr>
+            <td>支付平台</td>
+            <td><input type="text" class="form-control" placeholder="类型" name="name" id="type" value="{$list.type}" disabled/></td>
+        </tr>
+        <tr>
+            <td>支付名称</td>
+            <td><input type="text" class="form-control" placeholder="名称" name="name" id="name" value="{$list.name}"/></td>
+        </tr>
+        <tr>
+            <td>提交网关</td>
+            <td><input type="text" class="form-control" placeholder="提交网关" name="gateway" id="gateway" value="{$list.gateway}"/></td>
+        </tr>
+        <tr>
+            <td>商户号</td>
+            <td><input type="text" class="form-control" placeholder="商户号" name="merchant_code" id="merchant_code" value="{$list.merchant_code}"/></td>
+        </tr>
+        <tr>
+            <td>秘钥</td>
+            <td><input type="text" class="form-control" placeholder="秘钥" name="secretkey" id="secretkey" value="{$list.secretkey}"/></td>
+        </tr>
+        <!--时间限制-->
+        <tr>
+            <td>单笔最高(0为不限制)</td>
+            <td><input type="text" class="form-control" placeholder="单笔最高(0为不限制)" name="max" id="max" value="{$list.max}"/></td>
+        </tr>
+        <tr>
+            <td>单笔最低(0为不限制)</td>
+            <td><input type="text" class="form-control" placeholder="单笔最低(0为不限制)" name="min" id="min" value="{$list.min}"/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

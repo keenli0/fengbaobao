@@ -1,0 +1,227 @@
+﻿<div class="content-main">
+    <div class="btn-group" data-example-id="btn-variants" style="text-align:center">
+        <button type="button" id="add" class="btn btn-default"><i class="glyphicon glyphicon-plus"
+                                                                  aria-hidden="true"></i>新增
+        </button>
+        <form id="testserach"></form>
+    </div>
+    <table id="table_list" class="table table-bordered table-hover table-style">
+    </table>
+</div>
+<script>
+    $('#table_list tfoot th').each(function () {
+        var title = $('#example thead th').eq($(this).index()).text();
+        $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+    });
+    var datatable = $('#table_list').DataTable({
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "paging": true,
+        "lengthChange": true,
+        "lengthMenu": [10, 25, 50, 75, 100],
+        "pagingType": "full_numbers",
+        "stripeClasses": ['strip1', 'strip2', 'strip3'],
+        "autoWidth": false,
+        "rowId": 'id',
+        "language": {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "显示 _MENU_ 项结果",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "paginate": {
+                "first": "第一页",
+                "last": "最后一页",
+                "next": "下一页",
+                "previous": "上一页"
+            },
+            "oAria": {
+                "sSortAscending": ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+            },
+        },
+        cache: false,
+        dataType: "json",
+        "serverSide": true,
+        "ajax": {
+            "url": '{:url("aisle/payList")}',
+            "type": 'post',
+            data: function (param) {
+
+            },
+        },
+        columns: [
+            {
+                "data": "id",
+                "title": "id",
+                "defaultContent": "<i>Not set</i>",
+            },
+            {data: 'type', "title": "类型",},
+            {data: 'name', "title": "名称",},
+            {data: 'merchant_code', "title": "商户号",},
+            {data: 'create_time', "title": "添加时间",},
+            {
+                data: 'status',
+                "title": "状态",
+                "defaultContent": "<i>Not set</i>",
+                "render": function (data, type, row, meta) {
+                    $res = data > 0 ? '<button type="button" id="edit_status" data-status="on" class="btn btn-success  btn-xs">启用</button>' : '<button type="button" id="edit_status" data-status="off" class="btn btn-warning  btn-xs">禁用</button>'
+                    return $res;
+                },
+            },
+        ],
+        "columnDefs": [
+            {
+                "targets": 6,
+                "data": 'id',
+                "title": "操作",
+                "width": "15%",
+                "orderable": false,
+                "class": "gender_style",
+                "render": function (data, type, row, meta) {
+                    return '<button type="button" id="edit" class="btn btn-primary  btn-xs">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="edit_status" data-status="del" class="btn btn-primary  btn-xs">删除</button>';
+                },
+            },
+        ],
+        buttons: {
+            dom: {
+                button: {
+                    tag: 'button',
+                    className: 'btn btn-default'
+                }
+            },
+            buttons: ['excel'],
+        },
+    });
+    $('#table_list tbody').on('click', '#edit', function () {
+        var data = $('#table_list').DataTable().row($(this).parents('tr')).data();
+        $.post("{:url('aisle/edit')}", {id: data.id},
+            function (str) {
+                layer.open({
+                    title: '通道信息',
+                    content: str,
+                    closeBtn: 1,
+                    maxmin: true,
+                    area: ['500px', ''],
+                    btn: ['确定', '关闭'],
+                    yes: function () {
+                        data = {
+                            id: data.id,
+                            type: $("#type").val(),
+                            name: $("#name").val(),
+                            secretkey: $("#secretkey").val(),
+                            merchant_code: $("#merchant_code").val(),
+                            gateway: $("#gateway").val(),
+                            max: $("#max").val(),
+                            min: $("#min").val(),
+
+                        }
+                        $.ajax({
+                            url: "{:url('aisle/save')}",
+                            data: data,
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (res) {
+                                layer.msg(res.msg);
+                                datatable.ajax.reload();
+                            }
+                        })
+
+                    },
+                    no: function () {
+                        layer.closeAll();
+                    }
+                });
+            })
+    });
+    $("#add").click(function () {
+        $.post("{:url('aisle/add')}",
+            function (str) {
+                layer.open({
+                    title: '新增通道',
+                    content: str,
+                    closeBtn: 1,
+                    maxmin: true,
+                    area: ['500px', ''],
+                    btn: ['确定', '关闭'],
+                    yes: function () {
+                        data = {
+                            type: $("#type").val(),
+                            name: $("#name").val(),
+                            agentnum: $("#agentnum").val(),
+                            secretkey: $("#secretkey").val(),
+                            merchant_code: $("#merchant_code").val(),
+                        }
+                        $.ajax({
+                            url: "{:url('aisle/save')}",
+                            data: data,
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (res) {
+                                layer.msg(res.msg);
+                                datatable.ajax.reload();
+                            }
+                        })
+
+                    },
+                    no: function () {
+                        layer.closeAll();
+                    }
+                });
+            })
+    });
+    /*
+     *修改状态
+     * data-status="del" 删除
+     * data-status="off" 禁用
+     * data-status="on" 启用
+     */
+    $('#table_list tbody').on('click', '#edit_status', function () {
+        var data = $('#table_list').DataTable().row($(this).parents('tr')).data();
+        var status = $(this).data('status');
+        console.log(status);
+        var str = '';
+        if (status == 'del') {
+            str = '确定要删除“' + data.name + '”？';
+            type = -1;
+        } else if (status == 'off') {
+            str = '确定要启用“' + data.name + '”？';
+            type = 1;
+        } else if (status == 'on') {
+            str = '确定要关闭“' + data.name + '”？';
+            type = 0;
+        } else {
+            return false;
+        }
+        layer.confirm(str, {
+                title: '提示',
+                btn: ['确定', '取消']
+            },
+            function () {
+                $.ajax({
+                    url: "{:url('aisle/edit_status')}",
+                    data: {
+                        'status': type,
+                        'id': data.id
+                    },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (res) {
+                        layer.msg(res.msg);
+                        datatable.draw(false);
+                    }
+                })
+            },
+            function () {
+                layer.closeAll();
+            });
+    });
+</script>

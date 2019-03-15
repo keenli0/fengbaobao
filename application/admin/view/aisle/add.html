@@ -1,0 +1,51 @@
+<div id="message">
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td>支付平台</td>
+            <td><input type="text" class="form-control" placeholder="支付平台" name="type" id="type" value=""/></td>
+        </tr>
+        <tr>
+            <td>支付名称</td>
+            <td><input type="text" class="form-control" placeholder="支付名称" name="name" id="name" value=""/></td>
+        </tr>
+        </tr>
+        <tr>
+            <td>提交网关</td>
+            <td><input type="text" class="form-control" placeholder="提交网关" name="gateway" id="gateway" value=""/></td>
+        </tr>
+        <tr>
+            <td>商户编码</td>
+            <td><input type="text" class="form-control" placeholder="商户编码" name="merchant_code" id="merchant_code" value=""/></td>
+        </tr>
+        <tr>
+            <td>密钥</td>
+            <td><input type="text" class="form-control" placeholder="密钥" name="secretkey" id="secretkey" value=""/></td>
+        </tr>
+        <tr>
+            <td>公钥</td>
+            <td><input type="text" class="form-control" placeholder="公钥" name="publickey" id="publickey" value=""/></td>
+        </tr>
+        <!--时间限制-->
+        <tr>
+            <td>单笔最高(0为不限制)</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.maxamount}" name="max" id="max" value=""/></td>
+        </tr>
+        <tr>
+            <td>单笔最低(0为不限制)</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.minamount}" name="min" id="min" value=""/></td>
+        </tr>
+
+        <tr>
+            <td>{$Think.lang.starttime}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.starttime}" name="secretkey" id="starttime" value=""/></td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.endtime}</td>
+            <td><input type="text" class="form-control" placeholder="{$Think.lang.endtime}" name="secretkey" id="endtime" value=""/></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
